@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 numpy = "*"
 scipy = "*"
+pandas = "*"
+scikit-learn = "*"
 
 [requires]
 python_version = "3.7"

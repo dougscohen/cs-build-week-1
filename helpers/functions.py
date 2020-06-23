@@ -39,6 +39,11 @@ def encode_strings(data, column):
 		row[column] = lookup[row[column]]
 	return lookup
 
+
+# function to find most frequent element in a list 
+def most_frequent(List): 
+    return max(set(List), key = List.count) 
+
 # data = read_csv('iris.csv')
 # print(data)
 # convert_str_cols_to_float(data)

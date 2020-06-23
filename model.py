@@ -2,7 +2,7 @@
 import numpy as np
 import scipy as stats
 
-from helpers.functions import read_csv, convert_str_col_to_float, convert_str_col_to_int, encode_strings
+from helpers.functions import read_csv, convert_str_col_to_float, convert_str_col_to_int, encode_strings, most_frequent
 
 class KNN:
     """
@@ -16,11 +16,11 @@ class KNN:
     -------
     
     """
-    def __init__(self, num_neighbors=5):
+    def __init__(self):
         """
         Docstring
         """
-        self.num_neighbors = num_neighbors
+        pass
         
 
     # @staticmethod
@@ -35,8 +35,8 @@ class KNN:
             Returns:
                     Euclidian Distance (float)
         """
-        row_A = np.array(row_A)
-        row_B = np.array(row_B)
+        # row_A = np.array(row_A)
+        # row_B = np.array(row_B)
         
         dist = 0.0
         for i in range(len(row_A) - 1):
@@ -48,7 +48,7 @@ class KNN:
     # def fit(self, X_train, y_train):
     #     return
         
-    def find_neighbors(self, X, y):
+    def find_neighbors(self, X, y, num_neighbors=5):
         """
         docstring
         """
@@ -56,31 +56,38 @@ class KNN:
         
         for row in X:
             eu_dist = self.find_distance(row, y)
-            euclidian_distances.append((row[:-1], eu_dist))
+            euclidian_distances.append((row, eu_dist))
         
         euclidian_distances.sort(key=lambda tup: tup[1])
         
         neighbors = []
-        for i in range(self.num_neighbors):
+        for i in range(num_neighbors):
             neighbors.append(euclidian_distances[i])
             
         return neighbors
-    
-    # def predict(self, X, y)
-        
 
-# data = read_csv('data/iris.csv')
-# for i in range(len(data[0]) - 1):
-#     convert_str_col_to_float(data, i)
+
+    def predict(self, X, y, num_neighbors=5):
+        neighbors = self.find_neighbors(X, y, num_neighbors)
+        preds = [tup[0][-1] for tup in neighbors]
+        prediction = most_frequent(preds)
+        return prediction
+
+data = read_csv('data/iris.csv')
+for i in range(len(data[0]) - 1):
+    convert_str_col_to_float(data, i)
 # encode_strings(data, 4)
 
-data = read_csv('data/abalone.csv')
-for i in range(1, len(data[0]) - 1):
-    convert_str_col_to_float(data, i)
+# data = read_csv('data/abalone.csv')
+# for i in range(1, len(data[0]) - 1):
+#     convert_str_col_to_float(data, i)
     
-encode_strings(data, 0)
-convert_str_col_to_int(data, len(data[0]) - 1)
+# encode_strings(data, 0)
+# convert_str_col_to_int(data, len(data[0]) - 1)
 
 
-knn = KNN(5)
-print(knn.find_neighbors(data, data[74]))
+knn = KNN()
+print(knn.predict(data, data[100]))
+
+# a = [2, 2, 2, 2, 2]
+# print(most_frequent(a))
