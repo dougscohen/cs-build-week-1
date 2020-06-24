@@ -20,7 +20,7 @@ print(predictions)
 print(accuracy_score(y_test, predictions))
 y_pred = clf.predict([X_test[0]])
 print(y_pred)
-neighbors = clf.show_neighbors([X_test[0]])
+neighbors = clf.show_neighbors(X_test[0])
 print(neighbors)
 
 # # Test Scikit-learn KNN algorithm to compare (targets are numerical)
@@ -57,9 +57,10 @@ print(neighbors)
 # #. entire dataset
 # clf = KNN(num_neighbors=7)
 # clf.fit(data, target)
-# y_pred = clf.predict([[4, 6, 1, 9],
-#                       [4, .8, .1, 3]])
+# y_pred = clf.predict([[4.3, 2.7, 1, 1.3]])
 # print(y_pred)
+# neighbors = clf.show_neighbors([4.3, 2.7, 1, 1.3])
+# print(neighbors)
 
 
 
