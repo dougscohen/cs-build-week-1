@@ -14,7 +14,7 @@ class KNN():
     Methods
     -------
     find_distance(row_A, row_B):
-        Returns Euclidian distance between 2 rows of data.
+        Returns Euclidean distance between 2 rows of data.
     
     fit(X_train, y_train):
         Fits the model to the training data.
@@ -32,14 +32,14 @@ class KNN():
         
     def find_distance(self, row_A, row_B):
         """
-        Returns Euclidian distance between 2 rows of data.
+        Returns Euclidean distance between 2 rows of data.
         
             Parameters:
                     row_A (list): vector of numerical data
                     row_B (list): vector of numerical data
                     
             Returns:
-                    Euclidian Distance (float)
+                 Euclidean Distance (float)
         """
         # row_A = np.array(row_A)
         # row_B = np.array(row_B)
@@ -52,10 +52,10 @@ class KNN():
             #. it to the distance
             dist += (row_A[i] - row_B[i])**2
         
-        # return the sqyare root of the total distance
+        # return the square root of the total distance
         return np.sqrt(dist)
     
-    def fit(self, X_train, y_train):
+    def fit(self, X_train, y_train=[]):
         """
         Fits the model to the training data.
 
@@ -84,24 +84,25 @@ class KNN():
         # iterate (len(X)) number of times through 
         for i in range(len(X)):
             
-            # list containing euclidian distances
-            euclidian_distances = []
+            # list containing euclidean distances
+            euclidean_distances = []
             
-            # for each row in X_train, find its euclidian distance with the
+            # for each row in X_train, find its euclidean distance with the
             #. current 'X' row we are iterating through
             for row in self.X_train:
                 eu_dist = self.find_distance(row, X[i])
-                # append each euclidian distance to the list above
-                euclidian_distances.append(eu_dist)
+                # append each euclidean distance to the list above
+                euclidean_distances.append(eu_dist)
             
-            # sort the euclidian distances from smallest to largest and grab
+            # sort the euclidean distances from smallest to largest and grab
             #. the first K distances where K is the num_neigbors we want
-            euclidian_distances_sorted = np.array(euclidian_distances).argsort()[:self.num_neighbors]
+            euclidean_distances_sorted = np.array(euclidean_distances).argsort()[:self.num_neighbors]
             
-            # empty dictionary
+            # empty dictionary for class count
             neighbor_count = {}
             
-            for j in euclidian_distances_sorted:
+            # for each neighbor, find its class
+            for j in euclidean_distances_sorted:
                 if self.y_train[j] in neighbor_count:
                     neighbor_count[self.y_train[j]] += 1
                 else:
@@ -122,27 +123,27 @@ class KNN():
                 
         Returns:
                 neighbors (list): a list of tuples, each tuple containing a
-                neighbor and its euclidian distance to the given vector.
+                neighbor and its euclidean distance to the given vector.
         """
         # set predictinos to an empty list
         neighbors = []
             
-        # list containing euclidian distances
-        euclidian_distances = []
+        # list containing euclidean distances
+        euclidean_distances = []
         
-        # for each row in X_train, find its euclidian distance with the
+        # for each row in X_train, find its euclidean distance with the
         #. current 'X' row we are iterating through
         for row in self.X_train:
             eu_dist = self.find_distance(row, x_instance)
-            # append each row and the euclidian distance to the list above
-            euclidian_distances.append((row, eu_dist))
+            # append each row and the euclidean distance to the list above
+            euclidean_distances.append((row, eu_dist))
         
-        # sort the euclidian distances from smallest distance to largest
+        # sort the euclidean distances from smallest distance to largest
         #. distance
-        euclidian_distances.sort(key=lambda tup: tup[1])
+        euclidean_distances.sort(key=lambda tup: tup[1])
         
         # append to the neigbors list
-        neighbors.append(euclidian_distances)
+        neighbors.append(euclidean_distances)
         
         # return the first K entries in the neighbors list where K is the
         #. number of neighbors
