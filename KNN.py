@@ -22,7 +22,10 @@ class KNN():
     predict(X):
         Returns a list of predictions for the inputed X matrix.
     
-    show_neighbors(X):
+    show_neighbors(x_instance):
+        Returns a list of tuples, where each tuple contains a neighbor and its
+        euclidean distance for the given row of data.
+    
     """
     def __init__(self, num_neighbors=5):
         """
@@ -95,14 +98,14 @@ class KNN():
                 euclidean_distances.append(eu_dist)
             
             # sort the euclidean distances from smallest to largest and grab
-            #. the first K distances where K is the num_neigbors we want
-            euclidean_distances_sorted = np.array(euclidean_distances).argsort()[:self.num_neighbors]
+            #. the first K indeces where K is the num_neigbors we want
+            neighbor_indices = np.array(euclidean_distances).argsort()[:self.num_neighbors]
             
             # empty dictionary for class count
             neighbor_count = {}
             
             # for each neighbor, find its class
-            for j in euclidean_distances_sorted:
+            for j in neighbor_indices:
                 if self.y_train[j] in neighbor_count:
                     neighbor_count[self.y_train[j]] += 1
                 else:
@@ -116,17 +119,17 @@ class KNN():
 
     def show_neighbors(self, x_instance):
         """
-        Returns a list of neighbors for the given row of data.
+        Returns a list of tuples, where each tuple contains a neighbor and its
+        euclidean distance for the given row of data.
         
         Parameters:
                 x_instance (list): vector of numerical data.
                 
         Returns:
-                neighbors (list): a list of tuples, each tuple containing a
-                neighbor and its euclidean distance to the given vector.
+                neighbors_and_distances (list): a list of tuples, each tuple
+                containing a neighbor and its euclidean distance to the given
+                vector.
         """
-        # set predictinos to an empty list
-        neighbors = []
             
         # list containing euclidean distances
         euclidean_distances = []
@@ -136,15 +139,21 @@ class KNN():
         for row in self.X_train:
             eu_dist = self.find_distance(row, x_instance)
             # append each row and the euclidean distance to the list above
-            euclidean_distances.append((row, eu_dist))
+            euclidean_distances.append(eu_dist)
         
-        # sort the euclidean distances from smallest distance to largest
-        #. distance
-        euclidean_distances.sort(key=lambda tup: tup[1])
         
-        # append to the neigbors list
-        neighbors.append(euclidean_distances)
+        # sort from smallest distance to largest distance and grab the first K
+        #. indeces where K is the number of neigbors
+        neighbor_indices = np.array(euclidean_distances).argsort()[:self.num_neighbors]
         
-        # return the first K entries in the neighbors list where K is the
-        #. number of neighbors
-        return neighbors[0][:self.num_neighbors]
+        # list containg tuples of neighbor indeces and its euclidian distance
+        #. to x_instance
+        neighbors_and_distances = []
+        
+        for i in range(len(neighbor_indices)):
+            val1 = neighbor_indices[i]
+            val2 = euclidean_distances[i]
+            neighbors_and_distances.append((val1, val2))
+            
+        
+        return neighbors_and_distances
