@@ -146,6 +146,8 @@ class KNN():
         #. indeces where K is the number of neigbors
         neighbor_indices = np.array(euclidean_distances).argsort()[:self.num_neighbors]
         
+        euclidean_distances.sort()
+        
         # list containg tuples of neighbor indeces and its euclidian distance
         #. to x_instance
         neighbors_and_distances = []
